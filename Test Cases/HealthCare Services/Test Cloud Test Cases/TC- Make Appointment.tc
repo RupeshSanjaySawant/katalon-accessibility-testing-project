@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>TC- Make Appointment</name>
+   <tag>High,Sanity</tag>
+   <comment></comment>
+   <testCaseGuid>0febddd3-2d00-4cce-bed8-bc37e2185ac4</testCaseGuid>
+   <variableLinks>
+      <testDataLinkId></testDataLinkId>
+      <type>DEFAULT</type>
+      <value></value>
+      <variableId>a20ac685-6612-4117-b5c8-c5aecc770111</variableId>
+   </variableLinks>
+   <variable>
+      <defaultValue>'John Doe'</defaultValue>
+      <description></description>
+      <id>a20ac685-6612-4117-b5c8-c5aecc770111</id>
+      <masked>false</masked>
+      <name>UserName</name>
+   </variable>
+</TestCaseEntity>

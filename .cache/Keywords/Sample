@@ -1,0 +1,16 @@
+{
+  "keywordFileContentHash": "F451D0EB7563FCF277106A00BDF53C0B",
+  "keywordClasses": [
+    {
+      "name": "Sample",
+      "keywordMethods": [
+        {
+          "name": "checkAccessibility",
+          "parameters": [],
+          "javadoc": ""
+        }
+      ]
+    }
+  ],
+  "javadocParsed": true
+}
