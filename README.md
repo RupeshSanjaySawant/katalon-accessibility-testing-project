@@ -1,45 +1,92 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+## RUN ACCESSIBILITY TESTS ON YOUR WEBSITES
+ **Accessibility Test Automation in Katalon
+ Using The Axe-Core Library In Katalon Platform (Doc V1.0)**
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+- Overview
+      This document provides you with the step-by-step guide to achieve accessibility testing using Katalon Automation Platform on your website. Axe is a fast and lightweight accessibility testing tool that checks the entire document against the rules and generates a report with all violations, passes, etc.It checks if your website follows the WCAG and other guidelines (as supported by axe-core library).
+In this guide, you will learn:
+How axe-core library is used with Katalon Studio to achieve Accessibility testing
+What are the components of the generated report
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+- Prerequisites
 
----
+      Before you can integrate your Katalon Studio tests with and generate reports using the axe-core library, ensure that the following prerequisites are complete:
 
-## Edit a file
+- Download the axe-core jar file and save it in your local system and add it to Katalon Studio Project >> Settings >> Library Management . 
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+You will use this file to import required packages in the sample code snippets.
 
----
+-- Run Your First Accessibility Test
+ 
+     You can add the following custom keyword script, the accessibility checks are invoked using the axe-core library in this script. The generated report is saved in a JSON and TXT file format as per the path provided in the script (In Runtime report Folder).
 
-## Create a file
+import com.kms.katalon.core.util.KeywordUtil
+import java.text.SimpleDateFormat;
 
-Next, you’ll add a new file to this repository.
+import com.deque.html.axecore.results.Results;
+import com.deque.html.axecore.results.Rule;
+import com.deque.html.axecore.selenium.AxeBuilder;
+import com.deque.html.axecore.selenium.AxeReporter;
+import com.deque.html.axecore.selenium.ResultType;
+import static com.deque.html.axecore.selenium.AxeReporter.getReadableAxeResults;
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+import com.kms.katalon.core.annotation.Keyword
+import com.kms.katalon.core.configuration.RunConfiguration
+import com.kms.katalon.core.webui.driver.DriverFactory
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+class Sample {
 
----
+	@Keyword
+	def checkAccessibility() {
 
-## Clone a repository
+		Results results = new AxeBuilder().analyze(DriverFactory.getWebDriver())
+		List<Rule> violations = results.getViolations()
+		if(violations.size()==0){
+			KeywordUtil.logInfo("No Violation Found")
+		}
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+		String AxeReportPath = RunConfiguration.getReportFolder()+ File.separator
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+		String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new java.util.Date())
+		String AxeViolationReportPath=AxeReportPath + "AccessibilityViolations_" + timeStamp
+		AxeReporter.writeResultsToJsonFile(AxeViolationReportPath,results)
+		KeywordUtil.logInfo("Violation Report Path"+ AxeViolationReportPath)
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+		if(getReadableAxeResults(ResultType.Violations.getKey(),DriverFactory.getWebDriver(),violations) ){
+			AxeReporter.writeResultsToTextFile(AxeViolationReportPath, AxeReporter.getAxeResultString())
+
+		}
+	}
+}
+
+
+
+Note: You can also write assertions in your script based on the violations in the report.json and mark your test passed or failed based on these assertions.
+
+-- You can use this custom keyword in the test case Add>>Custom Keyword after you navigate to your desired pages on the website. You can use this keyword for different pages of the website as you navigate as per your flow.  You can execute on any browser (Chrome, Mozilla Firefox, Edge Chromium, Safari).
+
+
+
+-- After adding the test case in the test suite, You can execute and see the accessibility results in JSON and TXT format will get generated in the report folder, the same can get uploaded in TestOps as well.
+
+
+
+
+
+
+- Understand Components of The Report 
+
+    After you successfully run the test script, a text and json file are generated as per the path set in the script. 
+
+-- The report in TXT file contains the violation information 
+
+
+
+J-- SON file contains the following accessibility test information: Some of the information components available in the generated JSON report are:
+
+
+-- violations (array): These results indicate what elements failed in the rules.
+-- passes (array): These results indicate what elements passed in the rules.
+-- incomplete (array): It contains results that were aborted and require further testing. This can happen either because of technical restrictions to what the rule can test or because of a javascript error that occurred.
+-- inapplicable (array): These results indicate rules that did not run because no matching content was found on the page. For example, if no video exists, those rules won’t run.
