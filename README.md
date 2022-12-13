@@ -17,7 +17,7 @@ What are the components of the generated report
 
 You will use this file to import required packages in the sample code snippets.
 
--- Run Your First Accessibility Test
+- Run Your First Accessibility Test
  
      You can add the following custom keyword script, the accessibility checks are invoked using the axe-core library in this script. The generated report is saved in a JSON and TXT file format as per the path provided in the script (In Runtime report Folder).
 
@@ -57,21 +57,17 @@ class Sample {
 			AxeReporter.writeResultsToTextFile(AxeViolationReportPath, AxeReporter.getAxeResultString())
 
 		}
-	}
-}
+	}}
 
 
 
 Note: You can also write assertions in your script based on the violations in the report.json and mark your test passed or failed based on these assertions.
 
--- You can use this custom keyword in the test case Add>>Custom Keyword after you navigate to your desired pages on the website. You can use this keyword for different pages of the website as you navigate as per your flow.  You can execute on any browser (Chrome, Mozilla Firefox, Edge Chromium, Safari).
+- You can use this custom keyword in the test case Add>>Custom Keyword after you navigate to your desired pages on the website. You can use this keyword for different pages of the website as you navigate as per your flow.  You can execute on any browser (Chrome, Mozilla Firefox, Edge Chromium, Safari).
 
 
 
--- After adding the test case in the test suite, You can execute and see the accessibility results in JSON and TXT format will get generated in the report folder, the same can get uploaded in TestOps as well.
-
-
-
+- After adding the test case in the test suite, You can execute and see the accessibility results in JSON and TXT format will get generated in the report folder, the same can get uploaded in TestOps as well.
 
 
 
@@ -79,14 +75,14 @@ Note: You can also write assertions in your script based on the violations in th
 
     After you successfully run the test script, a text and json file are generated as per the path set in the script. 
 
--- The report in TXT file contains the violation information 
+- The report in TXT file contains the violation information 
 
 
 
-J-- SON file contains the following accessibility test information: Some of the information components available in the generated JSON report are:
+- JSON file contains the following accessibility test information: Some of the information components available in the generated JSON report are:
 
 
--- violations (array): These results indicate what elements failed in the rules.
--- passes (array): These results indicate what elements passed in the rules.
--- incomplete (array): It contains results that were aborted and require further testing. This can happen either because of technical restrictions to what the rule can test or because of a javascript error that occurred.
--- inapplicable (array): These results indicate rules that did not run because no matching content was found on the page. For example, if no video exists, those rules won’t run.
+1. violations (array): These results indicate what elements failed in the rules.
+2. passes (array): These results indicate what elements passed in the rules.
+3. incomplete (array): It contains results that were aborted and require further testing. This can happen either because of technical restrictions to what the rule can test or because of a javascript error that occurred.
+4. inapplicable (array): These results indicate rules that did not run because no matching content was found on the page. For example, if no video exists, those rules won’t run.
